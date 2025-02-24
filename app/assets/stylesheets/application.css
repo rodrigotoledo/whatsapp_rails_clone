@@ -20,6 +20,8 @@ aside{
 
 section{
   flex-grow: 1;
+  margin: 0;
+  border: 0;
 }
 
 .flash_error {
