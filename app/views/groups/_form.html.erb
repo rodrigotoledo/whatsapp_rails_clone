@@ -1,0 +1,4 @@
+<%= form_for :group, url: groups_path, method: :post do |f| %>
+  <%= f.text_field :name, placeholder: "Group name", required: true %>
+  <%= f.submit "Create", class: "button" %>
+<% end %>

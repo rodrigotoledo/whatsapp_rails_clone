@@ -1,16 +1,17 @@
+<% if @receiver %>
+  <h3>Messages for: <%= @receiver %></h3>
+<% end %>
+
 <% if @messages.present? %>
   <div class="message_box">
     <% @messages.each do |message| %>
       <p><strong><%= message.sender.email_address %>:</strong> <%= message.content %></p>
     <% end %>
   </div>
-
-  <!-- Formulário para envio de mensagem -->
-  <%= form_with url: messages_path, method: :post do |f| %>
-    <%= f.hidden_field :chat_id, value: @chat_id %>
-    <%= f.text_area :content, placeholder: "Your message..." %>
-    <%= f.submit "Send", class: "button" %>
-  <% end %>
 <% else %>
-  <h3>Nothing yet</h3>
+  <h3>No messages yet</h3>
+<% end %>
+
+<% if @receiver %>
+  <%= render partial: "messages/form", locals: {receiver: @receiver} %>
 <% end %>
