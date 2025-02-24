@@ -2,9 +2,9 @@
   <h3>Messages for: <%= @receiver %></h3>
 <% end %>
 
-<% if @messages.present? %>
+<% if chat_with.present? %>
   <div class="message_box">
-    <% @messages.each do |message| %>
+    <% chat_with.each do |message| %>
       <p><strong><%= message.sender.email_address %>:</strong> <%= message.content %></p>
     <% end %>
   </div>
