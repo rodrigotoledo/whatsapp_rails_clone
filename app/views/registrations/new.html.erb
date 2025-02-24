@@ -1,0 +1,15 @@
+<h1>
+  Sign up
+</h1>
+
+<%= form_with url: registration_url do |form| %>
+  <div>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "Enter your email address", value: params[:email_address] %>
+  </div>
+
+  <div>
+    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Create a password", maxlength: 72 %>
+  </div>
+
+  <%= form.submit "Sign up" %>
+<% end %>
