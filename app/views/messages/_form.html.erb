@@ -1,0 +1,7 @@
+<%= form_for :message, url: messages_path, method: :post, html: { id: "message-form" }  do |f| %>
+  <%= f.hidden_field :receiver_id, value: @receiver.id if @receiver.is_a?(User) %>
+  <%= f.hidden_field :group_id, value: @receiver.id if @receiver.is_a?(Group) %>
+  <%= f.hidden_field :receiver_type, value: receiver.class.name %>
+  <%= f.text_area :content, placeholder: "Type your message...", required: true %>
+  <%= f.submit "Send", class: "button" %>
+<% end %>

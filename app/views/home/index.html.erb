@@ -1,2 +1,17 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% if @receiver %>
+  <h3>Messages for: <%= @receiver %></h3>
+<% end %>
+
+<% if chat_with.present? %>
+  <div class="message_box">
+    <% chat_with.each do |message| %>
+      <p><strong><%= message.sender.email_address %>:</strong> <%= message.content %></p>
+    <% end %>
+  </div>
+<% else %>
+  <h3>No messages yet</h3>
+<% end %>
+
+<% if @receiver %>
+  <%= render partial: "messages/form", locals: {receiver: @receiver} %>
+<% end %>

@@ -7,7 +7,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
 
     <%= yield :head %>
 
@@ -24,15 +23,50 @@
   </head>
 
   <body>
-    <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-    <%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
-    <% if authenticated? %>
-      <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete %>
-    <% else %>
-      <%= link_to 'Sign in', new_session_path %>
-      <%= link_to 'Sign up', new_registration_path %>
-      <%= link_to "Forgot password?", new_password_path %>
-    <% end %>
-    <%= yield %>
+    <header>
+      <%= tag.div(flash[:alert], class: "flash_error") if flash[:alert] %>
+      <%= tag.div(flash[:notice], class: "flash_notice") if flash[:notice] %>
+
+      <div class="flash_notice" id="offline_message">Message sent successfully, but yout are offline!</div>
+      <div class="flash_notice" id="online_messages_sync">Messages are synchronized!</div>
+      <% if authenticated? %>
+        <nav>
+          <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete %>
+        </nav>
+      <% else %>
+        <nav>
+          <%= link_to 'Sign in', new_session_path %>
+          <%= link_to 'Sign up', new_registration_path %>
+          <%= link_to "Forgot password?", new_password_path %>
+        </nav>
+      <% end %>
+    </header>
+    <main>
+      <% if authenticated? %>
+      <aside>
+        <h3>Groups</h3>
+        <% if Current.user.groups.present? %>
+        <ul>
+          <% Current.user.groups.each do |group| %>
+            <li><%= link_to group.name, root_path(group_id: group) %></li>
+          <% end %>
+        </ul>
+        <% end %>
+        <%= render 'groups/form' %>
+
+        <h3>Friendships</h3>
+        <% if Current.user.friends.present? %>
+        <ul>
+          <% Current.user.friends.each do |friend| %>
+            <li><%= link_to truncate(friend.email_address, length: 20), root_path(friend_id: friend) %></li>
+          <% end %>
+        </ul>
+        <% end %>
+      </aside>
+      <% end %>
+      <section>
+        <%= yield %>
+      </section>
+    </main>
   </body>
 </html>
