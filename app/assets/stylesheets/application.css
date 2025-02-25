@@ -45,3 +45,7 @@ section{
 .message_box{
 height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;
 }
+
+#offline_message, #online_messages_sync {
+  display: none;
+}
