@@ -50,10 +50,21 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "dotenv-rails"
   gem "faker"
+  gem "guard-rspec", require: false
+  gem "letter_opener"
+  gem "letter_opener_web"
+  gem "rspec-rails"
   gem "rubocop-rails-omakase", require: false
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+end
+group :test do
+  gem "factory_bot_rails"
+  gem "rails-controller-testing"
+  gem "rspec-json_expectations"
+  gem "shoulda-matchers"
+  gem "simplecov", require: false
 end
