@@ -10,6 +10,13 @@ RSpec.describe User, type: :model do
     it { should have_many(:received_messages).class_name("Message").with_foreign_key("receiver_id").dependent(:destroy) }
   end
 
+  describe "#to_s" do
+    let(:user) { create(:user, email_address: "test@example.com") }
+    it "returns the email_address" do
+      expect(user.to_s).to eq("test@example.com")
+    end
+  end
+
   describe "validations" do
     it { should validate_presence_of(:email_address) }
     it "validates uniqueness of email_address" do
