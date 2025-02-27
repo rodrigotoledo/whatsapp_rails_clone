@@ -37,6 +37,7 @@ services:
       - bundle:/usr/local/bundle
     working_dir: /app
     environment:
+      APPLICATION_NAME: whats_app_clone
       DB: postgresql
       DB_HOST: db_postgresql
       DB_PORT: 5432
