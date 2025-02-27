@@ -63,6 +63,7 @@ group :development do
 end
 group :test do
   gem "factory_bot_rails"
+  gem "rails-controller-testing"
   gem "rspec-json_expectations"
   gem "shoulda-matchers"
   gem "simplecov", require: false
