@@ -1,0 +1,59 @@
+version: "3.8"
+networks:
+  backend:
+  frontend:
+services:
+  db_postgresql:
+    container_name: postgresql_container
+    image: postgres:14.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+  redis:
+    restart: always
+    image: redis:7-alpine
+    container_name: redis_container
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.development
+    tty: true
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+    working_dir: /app
+    environment:
+      DB: postgresql
+      DB_HOST: db_postgresql
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      BUNDLE_GEMFILE: /app/Gemfile
+      REDIS_URL: redis://redis:6379/1
+      PORT: 3000
+    command: bin/docker-dev-start-web.sh
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db_postgresql
+      - redis
+volumes:
+  bundle:
+  postgres_data:

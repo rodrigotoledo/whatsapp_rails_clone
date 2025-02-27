@@ -1,55 +1,44 @@
-name: CI
+name: Application workflow
 
 on:
-  pull_request:
   push:
-    branches: [ main ]
-
+    branches:
+    - main
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-20.04
+    env:
+      APPLICATION_NAME: whatsapp_clone
+      JWT_KEY: so_difficult_123
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/whatsapp_clone_test
+    services:
+      postgres:
+        image: postgres:latest
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_DB: whatsapp_clone_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          APPLICATION_NAME: whatsapp_clone
+          JWT_KEY: so_difficult_123
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v1
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
+    - name: Install postgres client dependencies
+      run: sudo apt-get install libpq-dev
 
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bin/importmap audit
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
+    - name: Create database
+      run: |
+        bundle exec rails db:create
+        bundle exec rails db:schema:load
+    - name: Run tests
+      run: bundle exec rspec spec
