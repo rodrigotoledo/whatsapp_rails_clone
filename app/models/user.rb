@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :groups
   has_many :sent_messages, class_name: "Message", foreign_key: "sender_id", dependent: :destroy
   has_many :received_messages, class_name: "Message", foreign_key: "receiver_id", dependent: :destroy
+  has_many :unread_messages, -> { where(unread: true) }, class_name: "Message", foreign_key: "receiver_id"
 
   def to_s
     email_address

@@ -8,9 +8,22 @@ class Message < ApplicationRecord
   validates :sender, :content, :receiver_type, presence: true
   validate :validate_receiver
 
-  after_create :add_friendships
+  after_create :add_friendships, :broadcast_unread_messages
+
+  def read_message!
+    update(unread: false)
+  end
 
   private
+
+  def broadcast_unread_messages
+    broadcast_update_to(
+      [receiver, "unread_messages"],
+      target: "unread_messages",
+      partial: "messages/unread_messages",
+      locals: {user: receiver}
+    )
+  end
 
   def add_friendships
     return if sender_id == receiver_id
