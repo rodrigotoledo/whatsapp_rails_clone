@@ -39,13 +39,10 @@
         <%= render 'groups/form' %>
 
         <h3>Friendships</h3>
-        <% if Current.user.friends.present? %>
-        <ul>
-          <% Current.user.friends.each do |friend| %>
-            <li><%= link_to truncate(friend.email_address, length: 20), root_path(friend_id: friend) %></li>
-          <% end %>
-        </ul>
-        <% end %>
+        <%=turbo_stream_from Current.user, "friendships" %>
+        <div id="friendships">
+          <%= render partial: 'friendships/friendship', locals: {user: Current.user} %>
+        </div>
       </aside>
       <% end %>
       <section>
