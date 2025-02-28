@@ -8,7 +8,8 @@ class Message < ApplicationRecord
   validates :sender, :content, :receiver_type, presence: true
   validate :validate_receiver
 
-  after_create :add_friendships_and_broadcast, :broadcast_unread_messages, :broadcast_append_message, if: -> { receiver.present? }
+  after_create :add_friendships_and_broadcast, :broadcast_friend_unread_messages, :broadcast_friend_append_message, if: -> { receiver.present? }
+  after_create :broadcast_group_append_message, if: -> { group.present? }
 
   def read_message!
     update(unread: false)
@@ -16,27 +17,8 @@ class Message < ApplicationRecord
 
   private
 
-  def broadcast_unread_messages
-    broadcast_update_to(
-      [receiver, "unread_messages"],
-      target: "unread_messages",
-      partial: "messages/unread_messages",
-      locals: {user: receiver}
-    )
-  end
-
-  def broadcast_append_message
-    broadcast_append_to(
-      [receiver, "messages_box"],
-      target: "messages_box",
-      partial: "messages/message",
-      locals: {message: self}
-    )
-  end
-
   def add_friendships_and_broadcast
     return if sender_id == receiver_id
-    return if group_id.present?
 
     receiver.friends << sender unless receiver.friends.include?(sender)
     sender.friends << receiver unless sender.friends.include?(receiver)
@@ -46,6 +28,33 @@ class Message < ApplicationRecord
       target: "friendships",
       partial: "friendships/friendship",
       locals: {user: receiver}
+    )
+  end
+
+  def broadcast_friend_unread_messages
+    broadcast_update_to(
+      [receiver, "unread_messages"],
+      target: "unread_messages",
+      partial: "messages/unread_messages",
+      locals: {user: receiver}
+    )
+  end
+
+  def broadcast_friend_append_message
+    broadcast_append_to(
+      [receiver, "messages_box"],
+      target: "messages_box",
+      partial: "messages/message",
+      locals: {message: self}
+    )
+  end
+
+  def broadcast_group_append_message
+    broadcast_append_to(
+      [group, "messages_box"],
+      target: "messages_box",
+      partial: "messages/message",
+      locals: {message: self}
     )
   end
 

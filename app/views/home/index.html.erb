@@ -2,7 +2,7 @@
   <h3>Messages for: <%= @receiver %></h3>
 
 
-  <%=turbo_stream_from Current.user, "messages_box" %>
+  <%=turbo_stream_from @receiver.is_a?(Group) ? @receiver : Current.user, "messages_box" %>
   <div id="messages_box">
     <% if chat_with.present? %>
       <% chat_with.each do |message| %>
