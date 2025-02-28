@@ -1,0 +1,7 @@
+<% if user.friends.present? %>
+<ul>
+  <% user.friends.each do |friend| %>
+    <li><%= link_to truncate(friend.email_address, length: 20), root_path(friend_id: friend) %></li>
+  <% end %>
+</ul>
+<% end %>

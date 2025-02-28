@@ -1,17 +1,16 @@
 <% if @receiver %>
   <h3>Messages for: <%= @receiver %></h3>
-<% end %>
 
-<% if chat_with.present? %>
-  <div class="message_box">
-    <% chat_with.each do |message| %>
-      <p><strong><%= message.sender.email_address %>:</strong> <%= message.content %></p>
+
+  <%=turbo_stream_from Current.user, "messages_box" %>
+  <div id="messages_box">
+    <% if chat_with.present? %>
+      <% chat_with.each do |message| %>
+        <%= render partial: 'messages/message', locals: {message: message} %>
+      <% end %>
     <% end %>
   </div>
-<% else %>
-  <h3>No messages yet</h3>
-<% end %>
 
-<% if @receiver %>
+
   <%= render partial: "messages/form", locals: {receiver: @receiver} %>
 <% end %>

@@ -8,9 +8,23 @@ default: &default
   password: <%= ENV['DB_PASSWORD'] %>
   timeout: 5000
 
+sqlite: &sqlite
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
 development:
-  <<: *default
-  database: <%= ENV['APPLICATION_NAME'] %>_development
+  primary:
+    <<: *default
+    database: <%= ENV['APPLICATION_NAME'] %>_development
+  cache:
+    <<: *sqlite
+    database: storage/whatsapp_clone_development_cache.sqlite3
+    migrations_path: db/cache_migrate
+  cable:
+    <<: *sqlite
+    database: storage/whatsapp_clone_development_cable.sqlite3
+    migrations_path: db/cable_migrate
 
 test:
   <<: *default
