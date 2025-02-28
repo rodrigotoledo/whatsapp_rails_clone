@@ -22,30 +22,30 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+<body class="bg-gray-100 h-screen flex flex-col" data-controller="unread">
     <%= render 'layouts/header' %>
     
-    <main>
+    <main class="flex flex-1 overflow-hidden">
       <% if authenticated? %>
-      <aside>
-        <h3>Groups</h3>
+      <aside class="w-1/4 bg-white p-4 border-0 shadow-md">
+        <h3 class="font-semibold mb-2">Groups</h3>
         <% if Current.user.groups.present? %>
-        <ul>
+        <ul class="mb-4">
           <% Current.user.groups.each do |group| %>
-            <li><%= link_to group.name, root_path(group_id: group) %></li>
+            <li class="bg-gray-100 hover:bg-gray-400 hover:underline p-2 rounded-md" tabindex="0"><%= link_to group.name, root_path(group_id: group) %></li>
           <% end %>
         </ul>
         <% end %>
         <%= render 'groups/form' %>
 
-        <h3>Friendships</h3>
+        <h3 class="font-semibold mt-4 mb-2">Friendships</h3>
         <%=turbo_stream_from Current.user, "friendships" %>
-        <div id="friendships">
+        <div id="friendships" class="text-gray-700">
           <%= render partial: 'friendships/friendship', locals: {user: Current.user} %>
         </div>
       </aside>
       <% end %>
-      <section>
+      <section class="flex-1 p-4 flex flex-col">
         <%= yield %>
       </section>
     </main>

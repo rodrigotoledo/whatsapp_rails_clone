@@ -1,16 +1,15 @@
 <% if @receiver %>
-  <h3>Messages for: <%= @receiver %></h3>
+  <h3 class="font-semibold text-lg mb-4">Messages for: <%= @receiver %></h3>
 
 
   <%=turbo_stream_from @receiver.is_a?(Group) ? @receiver : Current.user, "messages_box" %>
-  <div id="messages_box">
+  <div id="messages_box" class="flex-1 overflow-auto space-y-2 p-4 bg-white rounded shadow" data-controller="messages">
     <% if chat_with.present? %>
       <% chat_with.each do |message| %>
         <%= render partial: 'messages/message', locals: {message: message} %>
       <% end %>
     <% end %>
   </div>
-
 
   <%= render partial: "messages/form", locals: {receiver: @receiver} %>
 <% end %>

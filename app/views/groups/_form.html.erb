@@ -1,4 +1,4 @@
-<%= form_for :group, url: groups_path, method: :post do |f| %>
-  <%= f.text_field :name, placeholder: "Group name", required: true %>
-  <%= f.submit "Create", class: "button" %>
+<%= form_for :group, url: groups_path, method: :post, html: {class: 'flex gap-2'} do |f| %>
+  <%= f.text_field :name, placeholder: "Group name", required: true, class: 'shadow border-gray-200 border p-2 flex-1 rounded focus:outline-none' %>
+  <%= f.submit "Create", class: "bg-green-900 text-white px-4 py-2 rounded shadow" %>
 <% end %>

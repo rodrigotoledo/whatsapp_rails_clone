@@ -1,19 +1,21 @@
-<header>
-  <%= tag.div(flash[:alert], class: "flash_error") if flash[:alert] %>
-  <%= tag.div(flash[:notice], class: "flash_notice") if flash[:notice] %>
+<header class="bg-white shadow p-4 flex justify-between items-center">
+  <div class="flex-1">
+    <%= tag.div(flash[:alert], class: "flash_error font-bold text-red-500") if flash[:alert] %>
+    <%= tag.div(flash[:notice], class: "flash_notice font-bold text-green-500") if flash[:notice] %>
 
-  <div class="flash_notice" id="offline_message">Message sent successfully, but yout are offline!</div>
-  <div class="flash_notice" id="online_messages_sync">Messages are synchronized!</div>
+    <div class="flash_notice text-red-500 font-bold hidden" id="offline_message">Message sent successfully, but yout are offline!</div>
+    <div class="flash_notice text-green-500 font-bold hidden" id="online_messages_sync">Messages are synchronized!</div>
+  </div>
   <% if authenticated? %>
-    <nav>
+    <nav class="flex items-center gap-4">
       <%=turbo_stream_from Current.user, "unread_messages" %>
       <div id="unread_messages">
         <%= render partial: 'messages/unread_messages', locals: {user: Current.user} %>
       </div>
-      <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete %>
+      <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete, class: 'bg-green-900 text-white px-4 py-2 rounded' %>
     </nav>
   <% else %>
-    <nav>
+    <nav class="flex items-center gap-4">
       <%= link_to 'Sign in', new_session_path %>
       <%= link_to 'Sign up', new_registration_path %>
       <%= link_to "Forgot password?", new_password_path %>

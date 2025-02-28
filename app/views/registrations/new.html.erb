@@ -1,15 +1,15 @@
-<h1>
+<h1 class="text-2xl text-center mb-2">
   Sign up
 </h1>
 
-<%= form_with url: registration_url do |form| %>
+<%= form_with url: registration_url, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
   <div>
-    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "Enter your email address", value: params[:email_address] %>
+    <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "Enter your email address", value: params[:email_address], class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %>
   </div>
 
   <div>
-    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Create a password", maxlength: 72 %>
+    <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Create a password", maxlength: 72, class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %>
   </div>
 
-  <%= form.submit "Sign up" %>
+  <%= form.submit "Sign up", class: 'bg-green-900 w-full p-2 text-white rounded-md' %>
 <% end %>

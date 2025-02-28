@@ -1,9 +1,9 @@
-<h1>
+<h1 class="text-2xl text-center mb-2">
   Sign In
 </h1>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
+<%= form_with url: session_path, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
+  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %><br>
+  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %><br>
+  <%= form.submit "Sign in", class: 'bg-green-900 w-full p-2 text-white rounded-md' %>
 <% end %>

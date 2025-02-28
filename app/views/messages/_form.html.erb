@@ -1,7 +1,7 @@
-<%= form_for :message, url: messages_path, method: :post, html: { id: "message-form" }  do |f| %>
+<%= form_for :message, url: messages_path, method: :post, html: { id: "message-form", class: 'flex gap-2 mt-4' }  do |f| %>
   <%= f.hidden_field :receiver_id, value: @receiver.id if @receiver.is_a?(User) %>
   <%= f.hidden_field :group_id, value: @receiver.id if @receiver.is_a?(Group) %>
   <%= f.hidden_field :receiver_type, value: receiver.class.name %>
-  <%= f.text_area :content, placeholder: "Type your message...", required: true %>
-  <%= f.submit "Send", class: "button" %>
+  <%= f.text_area :content, placeholder: "Type your message...", required: true, class: 'border-0 p-2 flex-1 rounded shadow bg-white resize-none focus:outline-none' %>
+  <%= f.submit "Send", class: "bg-green-900 text-white px-4 py-2 rounded" %>
 <% end %>
