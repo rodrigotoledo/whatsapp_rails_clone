@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
   libmagickwand-dev \
   libsqlite3-dev \
   libpq-dev \
+  watchman \
   git \
   sudo
 RUN rm -rf /var/lib/apt/lists /var/cache/apt/archives

@@ -28,7 +28,7 @@ RSpec.describe MessagesController, type: :controller do
       it "does not create a new message" do
         expect {
           post :create, params: {message: invalid_attributes}
-        }.to_not change(Message, :count)
+        }.not_to change(Message, :count)
       end
 
       it "redirects to the root path with an alert" do
@@ -36,6 +36,15 @@ RSpec.describe MessagesController, type: :controller do
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq("Content can't be blank and Receiver must be present when receiver is a User")
       end
+    end
+  end
+
+  describe "PUT /messages/mark_as_read" do
+    it "marks all unread messages as read" do
+      put :mark_as_read
+
+      expect(response).to have_http_status(:success)
+      expect(user.unread_messages.count).to eq(0)
     end
   end
 end

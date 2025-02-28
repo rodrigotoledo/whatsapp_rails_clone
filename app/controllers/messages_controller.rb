@@ -9,6 +9,11 @@ class MessagesController < ApplicationController
     end
   end
 
+  def mark_as_read
+    Current.user.unread_messages.update_all(unread: false)
+    render partial: "unread_messages", locals: {user: Current.user}
+  end
+
   private
 
   def message_params
