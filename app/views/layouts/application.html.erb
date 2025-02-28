@@ -23,24 +23,8 @@
   </head>
 
   <body>
-    <header>
-      <%= tag.div(flash[:alert], class: "flash_error") if flash[:alert] %>
-      <%= tag.div(flash[:notice], class: "flash_notice") if flash[:notice] %>
-
-      <div class="flash_notice" id="offline_message">Message sent successfully, but yout are offline!</div>
-      <div class="flash_notice" id="online_messages_sync">Messages are synchronized!</div>
-      <% if authenticated? %>
-        <nav>
-          <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete %>
-        </nav>
-      <% else %>
-        <nav>
-          <%= link_to 'Sign in', new_session_path %>
-          <%= link_to 'Sign up', new_registration_path %>
-          <%= link_to "Forgot password?", new_password_path %>
-        </nav>
-      <% end %>
-    </header>
+    <%= render 'layouts/header' %>
+    
     <main>
       <% if authenticated? %>
       <aside>

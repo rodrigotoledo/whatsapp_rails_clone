@@ -47,4 +47,14 @@ RSpec.describe Message, type: :model do
       expect(sender.friends).not_to include(sender)
     end
   end
+
+  context 'when have scenarios over unread' do
+    let!(:message) { create(:message, sender: sender, receiver_type: "User", receiver: receiver) }
+    it { expect(message.unread?).to be_truthy }
+    it "read message" do
+      expect(message.read_message!).to be_truthy
+      expect(message.unread?).to be_falsey
+    end
+  end
+  
 end
