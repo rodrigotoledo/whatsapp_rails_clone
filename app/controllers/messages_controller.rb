@@ -3,7 +3,12 @@ class MessagesController < ApplicationController
     @message = Current.user.sent_messages.new(message_params)
 
     if @message.save
-      redirect_to root_path(group_id: @message.group_id, friend_id: @message.receiver_id), notice: "Message sent successfully!"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to root_path(group_id: @message.group_id, friend_id: @message.receiver_id), notice: "Message sent successfully!" }
+      end
+      # redirect_to root_path(group_id: @message.group_id, friend_id: @message.receiver_id), notice: "Message sent successfully!"
+
     else
       redirect_to root_path, alert: @message.errors.full_messages.to_sentence
     end

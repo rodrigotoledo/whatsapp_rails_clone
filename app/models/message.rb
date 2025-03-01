@@ -47,6 +47,12 @@ class Message < ApplicationRecord
       partial: "messages/message",
       locals: {message: self}
     )
+    broadcast_append_to(
+      [sender, "messages_box"],
+      target: "messages_box",
+      partial: "messages/message",
+      locals: {message: self}
+    )
   end
 
   def broadcast_group_append_message
