@@ -59,7 +59,7 @@ docker system prune -a --volumes -f
 docker network rm $(docker network ls -q)
 rm .db-created
 rm .db-seeded
-rm Gemfile.lock
+chmod 777 Gemfile.lock
 ```
 
 ## Putting In Development Mode
