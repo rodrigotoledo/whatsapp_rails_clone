@@ -1,0 +1,7 @@
+<% if user.groups.present? %>
+<ul class="mb-4">
+  <% user.groups.each do |group| %>
+    <li class="bg-gray-100 hover:bg-gray-400 hover:underline p-2 rounded-md" tabindex="0"><%= link_to group.name, root_path(group_id: group) %></li>
+  <% end %>
+</ul>
+<% end %>
