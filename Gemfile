@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # Core Rails
 gem "propshaft"
 gem "puma", ">= 5.0"
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.0.2"
 gem "sqlite3"
 
 # Frontend
