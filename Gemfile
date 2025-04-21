@@ -70,6 +70,6 @@ group :test do
   gem "simplecov", require: false
 end
 
-gem "tailwindcss-ruby", "~> 4.0"
+gem "tailwindcss-ruby", "~> 4.1"
 
 gem "tailwindcss-rails", "~> 4.1"
