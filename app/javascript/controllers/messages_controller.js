@@ -5,12 +5,20 @@ export default class extends Controller {
   connect() {
     this.scrollToBottom();
     this.element.addEventListener("scroll", this.checkScroll.bind(this));
+    window.addEventListener("focus", this.handleFocus.bind(this));
+  }
+
+  disconnect() {
+    window.removeEventListener("focus", this.handleFocus.bind(this));
+  }
+
+  handleFocus() {
+    this.markAsRead();
   }
 
   async checkScroll() {
     const { scrollTop, scrollHeight, clientHeight } = this.element;
 
-    // Se a rolagem chegou ao final da div
     if (scrollTop + clientHeight >= scrollHeight - 5) {
       await this.markAsRead();
     }
