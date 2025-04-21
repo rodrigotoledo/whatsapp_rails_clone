@@ -97,7 +97,7 @@ docker compose -f docker-compose.development.yml run app rails db:drop db:create
 
 ## Rails Commands
 
-Example Of Interaction Between Computer And Container:
+Example Of Interaction Between Computer and Container:
 
 ```bash
 docker compose -f docker-compose.development.yml run app rails c
