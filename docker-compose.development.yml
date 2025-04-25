@@ -16,6 +16,7 @@ services:
       APPLICATION_NAME: whats_app_clone
       BUNDLE_GEMFILE: /app/Gemfile
       PORT: 3000
+      JWT_KEY: supersecret
     command: bin/docker-dev-start-web.sh
     networks:
       - backend
