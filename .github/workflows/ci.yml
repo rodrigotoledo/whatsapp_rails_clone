@@ -4,41 +4,33 @@ on:
   push:
     branches:
     - main
+
 jobs:
   rspec:
     name: RSpec
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       APPLICATION_NAME: whatsapp_clone
       JWT_KEY: so_difficult_123
       RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/whatsapp_clone_test
-    services:
-      postgres:
-        image: postgres:latest
-        ports: [ '5432:5432' ]
-        env:
-          POSTGRES_DB: whatsapp_clone_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          APPLICATION_NAME: whatsapp_clone
-          JWT_KEY: so_difficult_123
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
 
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
+        ruby-version: '3.3.4'
         bundler-cache: true
 
-    - name: Install postgres client dependencies
-      run: sudo apt-get install libpq-dev
+    - name: Install system dependencies
+      run: sudo apt-get install -y libsqlite3-dev
 
-    - name: Create database
+    - name: Set up database
       run: |
         bundle exec rails db:create
         bundle exec rails db:schema:load
+
     - name: Run tests
-      run: bundle exec rspec spec
+      run: bundle exec rspec
