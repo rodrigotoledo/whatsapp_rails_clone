@@ -12,8 +12,8 @@
 
 ActiveRecord::Schema[8.0].define(version: 2025_02_28_104834) do
   create_table "friendships", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "friend_id", null: false
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
@@ -27,16 +27,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_104834) do
   end
 
   create_table "groups_users", id: false, force: :cascade do |t|
-    t.bigint "group_id"
-    t.bigint "user_id"
+    t.integer "group_id"
+    t.integer "user_id"
     t.index ["group_id"], name: "index_groups_users_on_group_id"
     t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
-    t.bigint "sender_id"
-    t.bigint "group_id"
-    t.bigint "receiver_id"
+    t.integer "sender_id"
+    t.integer "group_id"
+    t.integer "receiver_id"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_104834) do
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "ip_address"
     t.string "user_agent"
     t.datetime "created_at", null: false
