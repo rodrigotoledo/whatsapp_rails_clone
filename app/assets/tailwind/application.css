@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@layer utilities {
+  .placeholder-sm::placeholder {
+    font-size: 1rem;
+  }
+  .placeholder-lg::placeholder {
+    font-size: 1.125rem;
+  }
+}
