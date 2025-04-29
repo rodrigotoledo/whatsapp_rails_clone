@@ -1,7 +1,13 @@
 <% if user.friends.present? %>
-<ul class="mb-4">
-  <% user.friends.each do |friend| %>
-    <li class="bg-gray-100 hover:bg-gray-400 hover:underline p-2 rounded-md" tabindex="0"><%= link_to truncate(friend.email_address, length: 20), root_path(friend_id: friend) %></li>
-  <% end %>
-</ul>
+  <ul class="mb-4 flex flex-col space-y-1">
+    <% user.friends.each do |friend| %>
+      <li class="bg-gray-100 hover:bg-gray-400 hover:underline p-0.5 sm:p-2 rounded-md text-xs sm:text-sm" tabindex="0">
+        <%= link_to root_path(friend_id: friend), class: "block truncate w-22 sm:w-28 md:w-40 lg:w-80" do %>
+          <span class="truncate block" title="<%= friend.email_address %>">
+            <%= friend.email_address %>
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
