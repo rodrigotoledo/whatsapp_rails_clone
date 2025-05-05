@@ -9,7 +9,7 @@ gem "sqlite3"
 # Frontend
 gem "importmap-rails"
 gem "stimulus-rails"
-gem "tailwindcss-rails", "~> 4.1"
+gem "tailwindcss-rails", "~> 4.2"
 gem "turbo-rails"
 
 # Authentication
