@@ -6,7 +6,7 @@ default: &default
 development:
   primary:
     <<: *default
-    database: storage/whatsapp_clone_development.sqlite3
+    database: whatsapp_clone_development.sqlite3
   cache:
     <<: *default
     database: storage/whatsapp_clone_development_cache.sqlite3

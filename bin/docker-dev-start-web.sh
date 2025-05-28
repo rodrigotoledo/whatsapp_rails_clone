@@ -12,6 +12,9 @@ if [[ -f ./tmp/pids/server.pid ]]; then
   rm ./tmp/pids/server.pid
 fi
 
+sudo chown -R appuser:appuser /app/db
+sudo chmod -R 775 /app/db
+
 bundle
 
 if ! [[ -f .db-created ]]; then
@@ -25,6 +28,27 @@ if ! [[ -f .db-seeded ]]; then
   bin/rails db:seed
   touch .db-seeded
 fi
+
+
+
+# if [[ "${FORCE_DB_CREATE}" == "true" ]]; then
+#   bin/rails db:drop
+#   bin/rails db:drop:cache
+#   bin/rails db:drop:cable
+#   bin/rails db:drop:queue
+#   bin/rails db:create
+#   bin/rails db:create:cache
+#   bin/rails db:create:cable
+#   bin/rails db:create:queue
+#   touch .db-created
+# fi
+
+# bin/rails db:migrate
+
+# if [[ "${FORCE_DB_SEED}" == "true" ]]; then
+#   bin/rails db:seed
+#   touch /app/db/.db-seeded
+# fi
 
 
 foreman start -f Procfile.dev

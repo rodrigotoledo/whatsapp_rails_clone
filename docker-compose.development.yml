@@ -11,6 +11,7 @@ services:
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
+      - db-data:/app/db
     working_dir: /app
     environment:
       APPLICATION_NAME: whats_app_clone
@@ -25,3 +26,4 @@ services:
       - "3000:3000"
 volumes:
   bundle:
+  db-data:
