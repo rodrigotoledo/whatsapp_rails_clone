@@ -35,3 +35,4 @@ RUN bundle install
 RUN gem install foreman
 COPY --chown=appuser:appuser . /app
 RUN rm -rf tmp/*
+RUN echo 'export PS1="\[\e[32m\]\u@\h\[\e[m\]:\[\e[34m\]\w\[\e[m\] \[\e[33m\](\$GIT_BRANCH)\[\e[m\]\$ "' >> /home/appuser/.bashrc
