@@ -6,19 +6,24 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 RUN apt-get update && apt-get install -y \
-  build-essential \
-  nodejs \
+  curl \
+  libjemalloc2 \
   libvips \
   sqlite3 \
-  watchman \
+  libyaml-dev \
+  libpq-dev \
+  postgresql-client \
+  build-essential \
+  pkg-config \
   git \
-  libsqlite3-dev \
-  sudo \
   && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 RUN groupadd -g ${GROUP_ID} appuser && useradd -u ${USER_ID} -g ${GROUP_ID} -m appuser
 
-RUN echo "appuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN mkdir -p /app/tmp /app/log /app/db && \
+  chown -R appuser:appuser /app && \
+  chmod -R 775 /app/tmp /app/log /app/db && \
+  chmod g+s /app/db /app/tmp /app/log
 
 USER appuser
 
@@ -29,5 +34,4 @@ RUN bundle lock --add-platform x86_64-linux
 RUN bundle install
 RUN gem install foreman
 COPY --chown=appuser:appuser . /app
-RUN sudo rm -rf tmp/*
-ADD . /app
+RUN rm -rf tmp/*

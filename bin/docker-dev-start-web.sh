@@ -12,8 +12,8 @@ if [[ -f ./tmp/pids/server.pid ]]; then
   rm ./tmp/pids/server.pid
 fi
 
-sudo chown -R appuser:appuser /app/db
-sudo chmod -R 775 /app/db
+chown -R appuser:appuser /app/db
+chmod -R 775 /app/db
 
 bundle
 
@@ -36,4 +36,4 @@ if [[ "${FORCE_DB_SEED}" == "true" ]]; then
   touch /app/db/.db-seeded
 fi
 
-foreman start -f Procfile.dev
+exec "./bin/dev"
