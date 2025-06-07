@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Message < ApplicationRecord
   attr_accessor :receiver_type
 
@@ -24,43 +26,43 @@ class Message < ApplicationRecord
     sender.friends << receiver unless sender.friends.include?(receiver)
 
     broadcast_update_to(
-      [receiver, "friendships"],
+      [ receiver, "friendships" ],
       target: "friendships",
       partial: "friendships/friendship",
-      locals: {user: receiver}
+      locals: { user: receiver }
     )
   end
 
   def broadcast_friend_unread_messages
     broadcast_update_to(
-      [receiver, "unread_messages"],
+      [ receiver, "unread_messages" ],
       target: "unread_messages",
       partial: "messages/unread_messages",
-      locals: {user: receiver}
+      locals: { user: receiver }
     )
   end
 
   def broadcast_friend_append_message
     broadcast_append_to(
-      [receiver, "messages_box"],
+      [ receiver, "messages_box" ],
       target: "messages_box",
       partial: "messages/message",
-      locals: {message: self}
+      locals: { message: self }
     )
     broadcast_append_to(
-      [sender, "messages_box"],
+      [ sender, "messages_box" ],
       target: "messages_box",
       partial: "messages/message",
-      locals: {message: self}
+      locals: { message: self }
     )
   end
 
   def broadcast_group_append_message
     broadcast_append_to(
-      [group, "messages_box"],
+      [ group, "messages_box" ],
       target: "messages_box",
       partial: "messages/message",
-      locals: {message: self}
+      locals: { message: self }
     )
   end
 

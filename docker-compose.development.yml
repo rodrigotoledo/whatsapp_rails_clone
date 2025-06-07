@@ -1,8 +1,20 @@
-version: "3.8"
 networks:
   backend:
   frontend:
 services:
+  db_postgresql:
+    image: postgres:14.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      DB_HOST: ${DB_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_PORT: ${DB_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
   app:
     build:
       context: .
@@ -11,17 +23,29 @@ services:
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
+      - db-data:/app/db
     working_dir: /app
     environment:
-      APPLICATION_NAME: whats_app_clone
+      FORCE_DB_CREATE: ${FORCE_DB_CREATE}
+      FORCE_DB_SEED: ${FORCE_DB_SEED}
+      APPLICATION_NAME: ${APPLICATION_NAME}
+      DB_HOST: ${DB_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      PORT: ${PORT}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      JWT_KEY: ${JWT_KEY}
       BUNDLE_GEMFILE: /app/Gemfile
-      PORT: 3000
-      JWT_KEY: supersecret
     command: bin/docker-dev-start-web.sh
     networks:
       - backend
       - frontend
     ports:
       - "3000:3000"
+    depends_on:
+      - db_postgresql
 volumes:
   bundle:
+  postgres_data:
+  db-data:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthenticationHelper
   def sign_in(user)
     session = user.sessions.create!(user_agent: "RSpec Test", ip_address: "127.0.0.1")

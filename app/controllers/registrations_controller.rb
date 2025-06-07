@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
   before_action :resume_session, only: :new

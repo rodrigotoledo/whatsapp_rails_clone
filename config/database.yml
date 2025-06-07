@@ -1,4 +1,14 @@
 default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", "postgres") %>
+  timeout: 5000
+
+sqlite: &sqlite
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
@@ -6,20 +16,43 @@ default: &default
 development:
   primary:
     <<: *default
-    database: storage/whatsapp_clone_development.sqlite3
+    database: <%= "#{ENV.fetch('APPLICATION_NAME', 'app')}_development" %>
   cache:
-    <<: *default
-    database: storage/whatsapp_clone_development_cache.sqlite3
-    migrations_path: db/cache_migrate
+    <<: *sqlite
+    database: storage/development_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *sqlite
+    database: storage/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
   cable:
-    <<: *default
-    database: storage/whatsapp_clone_development_cable.sqlite3
-    migrations_path: db/cable_migrate
+    <<: *sqlite
+    database: storage/development_cable.sqlite3
+    migrations_paths: db/cable_migrate
 
 test:
   <<: *default
-  database: storage/whatsapp_clone_test.sqlite3
+  database: <%= "#{ENV.fetch('APPLICATION_NAME', 'app_db')}" %>
+  username: <%= ENV.fetch("DB_USERNAME", "postgres") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "postgres") %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
 
 production:
-  <<: *default
-  database: storage/whatsapp_clone_production.sqlite3
+  primary: &primary_production
+    adapter: postgresql
+    encoding: unicode
+    timeout: 5000
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+    url: <%= ENV.fetch("DATABASE_URL", 'url_production_database') %>
+  cache:
+    <<: *sqlite
+    database: production_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *sqlite
+    database: storage/production_cable.sqlite3
+    migrations_paths: db/cable_migrate

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 user = User.create(email_address: "faker@test.com", password: "password", password_confirmation: "password")
 
 10.times do

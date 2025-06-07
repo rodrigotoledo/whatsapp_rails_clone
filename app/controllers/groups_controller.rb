@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GroupsController < ApplicationController
   def create
     @group = Current.user.groups.build(group_params)
