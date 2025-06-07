@@ -56,5 +56,4 @@ RSpec.describe Message, type: :model do
       expect(message.unread?).to be_falsey
     end
   end
-  
 end

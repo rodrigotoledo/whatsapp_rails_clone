@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
 
   def mark_as_read
     Current.user.unread_messages.update_all(unread: false)
-    render partial: "unread_messages", locals: {user: Current.user}
+    render partial: "unread_messages", locals: { user: Current.user }
   end
 
   private

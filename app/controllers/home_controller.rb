@@ -10,8 +10,8 @@ class HomeController < ApplicationController
 
     @receiver = if params[:group_id].present?
                   Current.user.groups.find_by(id: params[:group_id])
-                elsif params[:friend_id].present?
+    elsif params[:friend_id].present?
                   Current.user.friends.find_by(id: params[:friend_id])
-                end
+    end
   end
 end
