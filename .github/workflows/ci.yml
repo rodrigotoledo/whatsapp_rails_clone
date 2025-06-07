@@ -1,36 +1,98 @@
-name: Application workflow
+name: CI
 
 on:
+  pull_request:
   push:
     branches:
     - main
-
+    - develop
+    - 'feature/**'
 jobs:
-  rspec:
-    name: RSpec
-    runs-on: ubuntu-22.04
-    env:
-      APPLICATION_NAME: whatsapp_clone
-      JWT_KEY: so_difficult_123
-      RAILS_ENV: test
+  scan_ruby:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Setup Ruby
+    - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3.4'
+        ruby-version: .ruby-version
         bundler-cache: true
 
-    - name: Install system dependencies
-      run: sudo apt-get install -y libsqlite3-dev
+    - name: Scan for common Rails security vulnerabilities using static analysis
+      run: bundle exec brakeman --no-pager
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: .ruby-version
+        bundler-cache: true
+
+    - name: Lint code for consistent style
+      run: bundle exec rubocop -f github
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: app_db
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      APPLICATION_NAME: whatsapp_app
+
+    steps:
+    - name: Install packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends -y \
+          curl \
+          libjemalloc2 \
+          libpq-dev \
+          libvips \
+          sqlite3 \
+          libsqlite3-dev \
+          libgraphicsmagick1-dev \
+          pkg-config
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: .ruby-version
+        bundler-cache: true
 
     - name: Set up database
+      env:
+        DATABASE_URL: postgresql://postgres:password@localhost:5432/app_db
       run: |
-        bundle exec rails db:create
-        bundle exec rails db:schema:load
+        bundle exec rails db:drop db:create
+        bundle exec rails db:migrate
 
     - name: Run tests
-      run: bundle exec rspec
+      run: bundle exec spec
+
+    - name: Keep screenshots from failed system tests
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: screenshots
+        path: ${{ github.workspace }}/tmp/screenshots
+        if-no-files-found: ignore
