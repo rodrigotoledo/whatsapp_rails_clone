@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_db
+      JWT_KEY: dummy_test_key
 
     services:
       postgres:
