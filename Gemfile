@@ -62,3 +62,6 @@ group :development do
   # Console
   gem "web-console"
 end
+gem "email_validator"
+gem "jwt"
+gem "rack-cors"
