@@ -3,8 +3,9 @@
 module Api
   class SessionsController < Api::ApplicationController
     def create
-      user = User.find_by(email_address: params.permit(:email_address))
-      if user&.authenticate(params.permit(:password))
+      data = params.permit(:email_address, :password)
+      user = User.find_by(email_address: data[:email_address])
+      if user&.authenticate(data[:password])
         token = login(user)
         render json: { user: user.attributes.except("password_digest"), token: token }, status: :created
       else
