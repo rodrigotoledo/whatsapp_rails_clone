@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   def create
     @message = Current.user.sent_messages.new(message_params)
