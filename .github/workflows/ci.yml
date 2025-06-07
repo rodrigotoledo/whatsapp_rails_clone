@@ -41,20 +41,23 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: testAdd commentMore actions
+      DB_HOST: localhost
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      APPLICATION_NAME: whatsapp_app
+
     services:
       postgres:
         image: postgres:14
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: app_db
+          POSTGRES_PASSWORD: postgres
         ports:
         - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-    env:
-      RAILS_ENV: test
-      APPLICATION_NAME: whatsapp_app
 
     steps:
     - name: Install packages
@@ -63,6 +66,7 @@ jobs:
         sudo apt-get install --no-install-recommends -y \
           curl \
           libjemalloc2 \
+          postgresql-client \
           libpq-dev \
           libvips \
           sqlite3 \
@@ -80,8 +84,6 @@ jobs:
         bundler-cache: true
 
     - name: Set up database
-      env:
-        DATABASE_URL: postgresql://postgres:password@localhost:5432/app_db
       run: |
         bundle exec rails db:drop db:create
         bundle exec rails db:migrate
