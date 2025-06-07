@@ -3,7 +3,7 @@ set -xeuo pipefail
 
 
 echo ">> Running RuboCop..."
-bundle exec rubocop || true
+bundle exec rubocop -A
 
 echo ">> Running Brakeman..."
 bundle exec brakeman --no-pager --quiet || true
