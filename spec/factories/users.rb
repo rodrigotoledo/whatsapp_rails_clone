@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :user do
     sequence(:email_address) { |n| "user#{n}@example.com" }
-    password { "password123" }
-    password_confirmation { "password123" }
+    password { PASSWORD_FOR_USER }
+    password_confirmation { PASSWORD_FOR_USER }
 
     trait :with_sessions do
       after(:create) do |user|

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AuthenticationHelper
+module AppAuthenticationHelper
   def sign_in(user)
     session = user.sessions.create!(user_agent: "RSpec Test", ip_address: "127.0.0.1")
     cookies.signed[:session_id] = session.id
