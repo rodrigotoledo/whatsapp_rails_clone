@@ -42,12 +42,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      RAILS_ENV: testAdd commentMore actions
-      DB_HOST: localhost
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      APPLICATION_NAME: whatsapp_app
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/app_db
 
     services:
       postgres:
