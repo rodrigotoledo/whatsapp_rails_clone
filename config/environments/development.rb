@@ -74,6 +74,13 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
 
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.cache_store = :solid_cache_store
+  config.solid_cache.database = :cache
+
+
+
   config.hosts << "*.ngrok.io"
   config.hosts << ".ngrok.io"
   config.hosts << ".ngrok-free.app"
