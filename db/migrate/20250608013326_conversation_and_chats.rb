@@ -7,14 +7,13 @@ class ConversationAndChats < ActiveRecord::Migration[8.0]
       t.datetime :last_message_at
       t.timestamps
 
-      t.index [:user1_id, :user2_id], unique: true
-      t.index [:user2_id, :user1_id], unique: true
+      t.index [ :user1_id, :user2_id ], unique: true
+      t.index [ :user2_id, :user1_id ], unique: true
     end
 
     add_column :messages, :messageable_type, :string
     add_column :messages, :messageable_id, :integer
-    add_index :messages, [:messageable_type, :messageable_id], name: "index_messages_on_messageable"
-
+    add_index :messages, [ :messageable_type, :messageable_id ], name: "index_messages_on_messageable"
 
     remove_column :messages, :receiver_id
     remove_column :messages, :group_id

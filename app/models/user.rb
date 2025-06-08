@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
-  
+
   # Relacionamentos com Conversation
   has_many :conversations_as_user1, class_name: "Conversation", foreign_key: "user1_id", dependent: :destroy
   has_many :conversations_as_user2, class_name: "Conversation", foreign_key: "user2_id", dependent: :destroy
@@ -33,10 +33,10 @@ class User < ApplicationRecord
       .includes(:messages)
       .order("messages.created_at DESC")
   end
-  
+
   # Encontra ou cria conversa com outro usuário
   def conversation_with(user)
-    Conversation.find_by("(user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)", 
+    Conversation.find_by("(user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)",
                        id, user.id, user.id, id) ||
     Conversation.create(user1: self, user2: user)
   end
