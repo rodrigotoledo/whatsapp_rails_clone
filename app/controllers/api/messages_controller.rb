@@ -6,7 +6,7 @@ module Api
     before_action :set_receiver, only: :index
 
     def index
-      render json: { messages: current_user.chat_with(@receiver) }, status: :ok
+      render json: { messages: current_user.messages }, status: :ok
     end
 
     def create

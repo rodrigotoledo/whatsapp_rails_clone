@@ -18,6 +18,15 @@ class User < ApplicationRecord
     email_address
   end
 
+  def messages
+    user_messages = Message.where("sender_id = :user_id OR receiver_id = :user_id", user_id: id).all
+    group_messages = self.groups.try(:messages)
+
+    return user_messages.includes(:sender, :receiver) if group_messages.blank?
+
+    Message.from("(#{user_messages.to_sql} UNION #{group_messages.to_sql}) AS messages").order(created_at: :desc).includes(:sender, :receiver, :group)
+  end
+
   def chat_with(receiver)
     case receiver
     when User

@@ -65,3 +65,4 @@ end
 gem "email_validator"
 gem "jwt"
 gem "rack-cors"
+gem "active_model_serializers"
