@@ -23,7 +23,7 @@ services:
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
-      - db-data:/app/db
+      - ./db:/app/db
     working_dir: /app
     environment:
       FORCE_DB_CREATE: ${FORCE_DB_CREATE}
