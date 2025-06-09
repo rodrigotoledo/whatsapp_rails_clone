@@ -1,0 +1,19 @@
+{
+  "ruby.rubocop.configFilePath": "/project/.rubocop.yml",
+  "rufo.exe": "~/.asdf/shims/rufo",
+  "rufo": "~/.asdf/shims/rufo",
+  "editor.formatOnSave": true,
+  "ruby.rubocop.onSave": true,
+  "rubocop.autocorrect": true,
+  "ruby.rubocop.executePath": "/project/bin/",
+  "ruby.rubocop.useBundler": false,
+  "ruby.rubocop.autocorrectOnSave": true,
+  "rubocop.safeAutocorrect": false,
+  "rubocop.layoutMode": true,
+  "rubocop.commandPath": "~/.asdf/shims/rufo",
+  "editor.formatOnSaveTimeout": 5000,
+  "files.associations": {
+    "*.erb": "erb"
+  },
+  "ruby.linter.executablePath": "~/.asdf/installs/ruby/3.3.4/bin/"
+}
