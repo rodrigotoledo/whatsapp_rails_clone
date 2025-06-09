@@ -22,6 +22,18 @@ RSpec.describe "Api::Sessions", type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context "with invalid header key" do
+      it "returns unprocessable entity" do
+        get api_messages_path
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it "returns unprocessable entity with false header" do
+        get api_messages_path, headers: generate_invalid_jwt_token
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
   describe "DELETE /logout" do
     before do
