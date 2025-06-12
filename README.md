@@ -30,6 +30,32 @@ rails db:create db:migrate db:seed
 
 4 - Access localhost from http://localhost:3000
 
+Tips:
+
+Maybe you need remove the credentials in first moment and create the secret_key_base:
+
+```bash
+rm config/credentials.yml.enc config/master.key
+EDITOR="code --wait" rails credentials:edit
+```
+
+```yaml
+development:
+  secret_key_base: your_long_random_string_here
+```
+
+And copy the output generate by
+
+```bash
+rails secret
+```
+
+paste in .env file with
+
+```.env
+SECRET_KEY_BASE=
+```
+
 ## Offline Functionality
 
 ### Saving Data Offline
@@ -88,6 +114,9 @@ docker compose -f docker-compose.development.yml down -v
 docker compose -f docker-compose.development.yml run app bundle install
 docker compose -f docker-compose.development.yml run app bash
 docker compose -f docker-compose.development.yml run app rails active_storage:install
+docker compose -f docker-compose.development.yml run app rails solid_queue:install
+docker compose -f docker-compose.development.yml run app rails solid_cache:install
+docker compose -f docker-compose.development.yml run app rails solid_cable:install
 ```
 
 ## Migrations
