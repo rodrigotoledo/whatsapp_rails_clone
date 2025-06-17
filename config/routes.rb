@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   resources :sessions
-  delete :logout, to: 'sessions#destroy', as: :logout
+  delete :logout, to: "sessions#destroy", as: :logout
   resources :passwords, param: :token
   resources :registrations, only: %i[new create]
   resources :groups, only: :create
