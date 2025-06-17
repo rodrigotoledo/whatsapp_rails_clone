@@ -2,7 +2,7 @@
   Sign up
 </h1>
 
-<%= form_with url: registration_url, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
+<%= form_with url: registrations_url, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
   <div>
     <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", placeholder: "Enter your email address", value: params[:email_address], class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %>
   </div>

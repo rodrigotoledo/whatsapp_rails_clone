@@ -12,7 +12,7 @@
       <div id="unread_messages">
         <%= render partial: 'messages/unread_messages', locals: {user: Current.user} %>
       </div>
-      <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete, class: 'bg-green-900 text-white px-4 py-2 rounded' %>
+      <%= button_to "#{Current.user.email_address} - Sign out", logout_path, method: :delete, class: 'bg-green-900 text-white px-4 py-2 rounded' %>
     </nav>
   <% else %>
     <nav class="flex items-center gap-4">

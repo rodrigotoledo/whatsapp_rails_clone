@@ -34,7 +34,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DB_PORT: ${DB_PORT}
       PORT: ${PORT}
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       JWT_KEY: ${JWT_KEY}
       BUNDLE_GEMFILE: /app/Gemfile
     command: bin/docker-dev-start-web.sh

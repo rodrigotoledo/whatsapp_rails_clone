@@ -18,6 +18,10 @@ class User < ApplicationRecord
     email_address
   end
 
+  def messages
+    @messages ||= Message.where("(sender_id = :user_id OR receiver_id = :user_id)", user_id: id).order(:created_at)
+  end
+
   def chat_with(receiver)
     case receiver
     when User
