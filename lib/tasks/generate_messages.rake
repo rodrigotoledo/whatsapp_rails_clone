@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # lib/tasks/generate_messages.rake
 namespace :db do
   desc "Generate mass messages between admin and existing users"
@@ -29,7 +31,7 @@ namespace :db do
       )
 
       # Garante que ambos são participantes
-      [admin, user].each do |participant|
+      [ admin, user ].each do |participant|
         ConversationParticipant.find_or_create_by!(
           conversation: conversation,
           user: participant
@@ -53,7 +55,7 @@ namespace :db do
         if rand(5) == 0 # 20% de chance
           ConversationParticipant.where(
             conversation: conversation,
-            user: [admin, user].sample
+            user: [ admin, user ].sample
           ).update_all(last_read_at: created_at + rand(10).minutes)
         end
       end
