@@ -1,29 +1,55 @@
-# frozen_string_literal: true
-
-require "rails_helper"
+# spec/models/group_spec.rb
+require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-  let(:group) { build(:group, name: "My Group") }
+  let(:user) { create(:user) }
+  let(:admin_user) { create(:user) }
 
-  context "validations" do
-    it "is valid with a name" do
-      expect(group).to be_valid
-    end
+  describe 'associations' do
+    it { is_expected.to belong_to(:conversation) }
+    it { should have_many(:group_memberships) }
+    it { should have_many(:users).through(:group_memberships) }
+  end
 
-    it "is invalid without a name" do
-      group.name = nil
-      expect(group).not_to be_valid
-      expect(group.errors[:name]).to include("can't be blank")
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+  end
+
+  describe 'callbacks' do
+    context 'when creating new group' do
+      it 'automatically creates conversation' do
+        group = Group.new(name: 'Test Group')
+        expect { group.save }.to change(Conversation, :count).by(1)
+      end
+
+      it 'sets conversation_type to group' do
+        group = create(:group, conversation: nil)
+        expect(group.conversation.conversation_type).to eq('group')
+      end
     end
   end
 
-  context "associations" do
-    it { should have_many(:messages).dependent(:destroy) }
+  describe '#to_s' do
+    it 'returns group name' do
+      group = build(:group, name: 'Test Group')
+      expect(group.to_s).to eq('Test Group')
+    end
   end
 
-  context "instance methods" do
-    it "returns the name as a string" do
-      expect(group.to_s).to eq("My Group")
+  describe '#add_member' do
+    let(:group) { create(:group) }
+
+    it 'adds user to conversation participants' do
+      expect {
+        group.add_member(user)
+      }.to change { group.conversation.participants.count }.by(1)
+    end
+
+    it 'does not duplicate existing members' do
+      group.add_member(user)
+      expect {
+        group.add_member(user)
+      }.not_to change { group.conversation.participants.count }
     end
   end
 end
