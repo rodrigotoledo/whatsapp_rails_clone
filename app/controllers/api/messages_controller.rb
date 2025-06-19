@@ -10,7 +10,7 @@ module Api
     end
 
     def create
-      message = current_user.sent_messages.new(message_params)
+      message = current_user.messages.build(message_params)
 
       if message.save
         head :created
@@ -19,15 +19,10 @@ module Api
       end
     end
 
-    def mark_as_read
-      current_user.unread_messages.update_all(unread: false)
-      head :ok
-    end
-
     private
 
     def message_params
-      params.require(:message).permit(:content, :group_id, :receiver_id, :receiver_type).merge(sender_id: current_user.id)
+      params.require(:message).permit(:content, :group_id, :receiver_id).merge(sender_id: current_user.id)
     end
 
     def set_receiver

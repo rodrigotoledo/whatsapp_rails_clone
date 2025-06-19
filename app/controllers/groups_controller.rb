@@ -6,7 +6,8 @@ class GroupsController < ApplicationController
 
     if @group.save
       Current.user.groups << @group
-      redirect_to root_path(group_id: @group.id), notice: "Group created successfully."
+      @group.add_member(current_user)
+      redirect_to conversation_path(@group.conversation_id), notice: "Group created successfully."
     else
       redirect_to root_path, alert: @group.errors.full_messages.to_sentence
     end

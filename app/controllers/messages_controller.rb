@@ -1,27 +1,29 @@
 # frozen_string_literal: true
 
 class MessagesController < ApplicationController
-  def create
-    @message = Current.user.sent_messages.new(message_params)
+  before_action :set_conversation
 
-    if @message.save
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to root_path(group_id: @message.group_id, friend_id: @message.receiver_id), notice: "Message sent successfully!" }
-      end
-    else
-      redirect_to root_path, alert: @message.errors.full_messages.to_sentence
-    end
+  def index
+    @messages = @conversation.messages.order(created_at: :asc)
   end
 
-  def mark_as_read
-    Current.user.unread_messages.update_all(unread: false)
-    render partial: "unread_messages", locals: { user: Current.user }
+  def create
+    @message = @conversation.messages.new(message_params.merge(sender: current_user))
+
+    if @message.save
+      redirect_to conversation_path(@conversation)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
 
+  def set_conversation
+    @conversation = current_user.conversations.find(params[:conversation_id])
+  end
+
   def message_params
-    params.require(:message).permit(:content, :group_id, :receiver_id, :receiver_type).merge(sender_id: Current.user.id)
+    params.require(:message).permit(:content)
   end
 end
