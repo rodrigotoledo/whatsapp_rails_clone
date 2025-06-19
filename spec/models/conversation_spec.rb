@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/conversation_spec.rb
 require 'rails_helper'
 
@@ -56,7 +58,7 @@ RSpec.describe Conversation, type: :model do
 
     context 'for direct conversation' do
       let(:conversation) { create(:conversation, conversation_type: 'direct') }
-      before { conversation.participants << [user1, user2] }
+      before { conversation.participants << [ user1, user2 ] }
 
       it 'returns other participant email' do
         expect(conversation.display_name(user1)).to eq(user2.email_address)

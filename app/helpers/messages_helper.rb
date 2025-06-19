@@ -17,4 +17,8 @@ module MessagesHelper
   def current_conversations(user)
     @conversations ||= user.conversations.includes(:participants, :messages).order(updated_at: :desc)
   end
+
+  def unread_count_for(conversation, user)
+    conversation.unread_count_for(user)
+  end
 end

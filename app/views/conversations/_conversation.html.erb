@@ -25,9 +25,9 @@
           </time>
         <% end %>
 
-        <% if unread_count = conversation.unread_count_for(current_user) > 0 %>
+        <% if unread_count_for(conversation, current_user) > 0 %>
           <span class="mt-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-            <%= unread_count %>
+            <%= unread_count_for(conversation, current_user) %>
           </span>
         <% end %>
       </div>
