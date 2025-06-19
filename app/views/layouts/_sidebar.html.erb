@@ -1,0 +1,23 @@
+<aside class="w-1/4 bg-white border-0 shadow-md flex flex-col h-screen">
+  <!-- Cabeçalho -->
+  <div class="bg-white p-4 border-b sticky top-0 z-10">
+    <h1 class="text-xl font-bold">Chats</h1>
+  </div>
+
+  <!-- Container flexível para lista e formulário -->
+  <div class="flex flex-col flex-1 min-h-0"> <!-- min-h-0 é crucial para scroll interno -->
+
+    <!-- Lista de conversas com scroll -->
+    <div class="flex-1 overflow-y-auto p-2">
+      <%=turbo_stream_from [current_user, "conversations_list" ] %>
+      <%= turbo_frame_tag "conversations_list" do %>
+        <%= render partial: 'conversations/list', locals: {user: current_user} %>
+      <% end %>
+    </div>
+
+    <!-- Formulário fixo no final -->
+    <div class="p-4 border-t bg-white sticky bottom-0">
+      <%= render 'groups/form' %>
+    </div>
+  </div>
+</aside>

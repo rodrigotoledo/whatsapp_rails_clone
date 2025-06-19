@@ -2,8 +2,21 @@
   Sign In
 </h1>
 
-<%= form_with url: session_path, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none' %><br>
+<% if flash[:alert] %>
+  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<%= form_with url: session_path,  data: { turbo: false }, html: {class: 'bg-gray-50 p-6 rounded-lg shadow-md max-w-sm mx-auto flex-row space-y-2 w-1/2'} do |form| %>
+  <%= form.email_field :email_address, required: true, autofocus: true,
+                      value: params[:email_address],
+                      class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none',
+                      placeholder: "Enter your email address" %>
+
+  <%= form.password_field :password, required: true,
+                         class: 'border-0 p-2 rounded shadow bg-white resize-none w-full focus:outline-none',
+                         placeholder: "Enter your password" %>
+
   <%= form.submit "Sign in", class: 'bg-green-900 w-full p-2 text-white rounded-md' %>
 <% end %>

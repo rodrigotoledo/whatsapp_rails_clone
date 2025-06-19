@@ -1,1 +1,15 @@
-<p><strong><%= message.sender.email_address %>:</strong> <%= message.content %></p>
+<div class="flex flex-col max-w-[80%] <%= message.sender == current_user ? 'items-end ml-auto' : 'items-start mr-auto' %> mb-3">
+  <div class="message-sender">
+    <% if message.conversation.group? %>
+      <span class="font-semibold text-gray-700 text-sm mb-1 block"><%= message.sender.email_address %></span>
+    <% end %>
+  </div>
+  <div class="flex items-end group">
+    <div class="<%= message.sender == current_user ? 'bg-[#D9FDD3] rounded-tl-xl rounded-tr-xl rounded-bl-xl' : 'bg-white rounded-tl-xl rounded-tr-xl rounded-br-xl' %> px-3 py-2 shadow-sm">
+      <div class="message-content text-gray-800"><%= message.content %></div>
+    </div>
+    <div class="message-time text-xs text-gray-800 ml-2 mb-1 opacity-50 group-hover:opacity-100 transition-opacity">
+      <%= message.created_at.strftime("%H:%M") %>
+    </div>
+  </div>
+</div>

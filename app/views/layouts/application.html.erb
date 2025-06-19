@@ -10,41 +10,24 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-<body class="bg-gray-100 h-screen flex flex-col" data-controller="unread">
+  <body class="bg-gray-100 h-screen flex flex-col">
     <%= render 'layouts/header' %>
 
     <main class="flex flex-1 overflow-hidden">
       <% if authenticated? %>
-      <aside class="w-1/4 bg-white p-4 border-0 shadow-md">
-        <h3 class="font-semibold mb-2">Groups</h3>
-        <%=turbo_stream_from Current.user, "groups" %>
-        <div id="groups" class="text-gray-700">
-          <%= render partial: 'groups/group', locals: {user: Current.user} %>
-        </div>
-
-        <%= render 'groups/form' %>
-
-        <h3 class="font-semibold mt-4 mb-2">Friendships</h3>
-        <%=turbo_stream_from Current.user, "friendships" %>
-        <div id="friendships" class="text-gray-700">
-          <%= render partial: 'friendships/friendship', locals: {user: Current.user} %>
-        </div>
-      </aside>
+        <%= render 'layouts/sidebar' %>
       <% end %>
-      <section class="flex-1 p-4 flex flex-col">
+
+      <section class="flex-1 px-4 flex flex-col">
         <%= yield %>
       </section>
     </main>

@@ -1,0 +1,21 @@
+<%# app/views/conversations/show.html.erb %>
+<div class="flex flex-col h-full"
+  data-controller="conversations"
+  data-conversations-conversation-id-value="<%= @conversation.id %>"
+  data-conversations-user-id-value="<%= current_user.id %>">
+  <div class="border-b p-4 mb-4">
+    <h2 class="text-xl font-semibold">
+      <%= @conversation.display_name(current_user) %>
+    </h2>
+  </div>
+  <%= turbo_stream_from @conversation %>
+  <%= turbo_frame_tag "messages", class: "flex-1 overflow-y-auto px-4 space-y-2 messages-container" do %>
+    <% @messages.each do |message| %>
+      <%= render partial: 'messages/message', locals: { message: message, current_user: current_user } %>
+    <% end %>
+  <% end %>
+
+  <div class="border-t py-4 bottom-0 sticky">
+    <%= render "messages/form", conversation: @conversation %>
+  </div>
+</div>
