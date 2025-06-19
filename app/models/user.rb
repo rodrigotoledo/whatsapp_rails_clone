@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  extend FriendlyId
+  friendly_id :email_address, use: :slugged
   has_secure_password
   has_many :sessions, dependent: :destroy
 

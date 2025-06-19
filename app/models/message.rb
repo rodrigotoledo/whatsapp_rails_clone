@@ -21,14 +21,14 @@ class Message < ApplicationRecord
 
     conversation.participants.each do |user|
       broadcast_update_to(
-        [user, "conversations_list"],
+        [ user, "conversations_list" ],
         target: "conversations_list",
         partial: "conversations/list",
         locals: { user: user }
       )
 
       broadcast_update_to(
-        [user, "unread_messages"],
+        [ user, "unread_messages" ],
         target: "unread_messages",
         partial: "messages/unread_messages",
         locals: { user: user }
