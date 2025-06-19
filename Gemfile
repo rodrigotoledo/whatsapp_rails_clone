@@ -33,6 +33,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 group :development, :test do
   # Environment
   gem "dotenv-rails"
+  gem "pry"
 
   # Testing
   gem "factory_bot_rails"
@@ -52,6 +53,8 @@ group :development, :test do
 
   # Code quality
   gem "rubocop-rails-omakase", require: false
+
+  gem "erb_lint", require: false
 end
 
 group :development do
@@ -66,3 +69,4 @@ gem "email_validator"
 gem "jwt"
 gem "rack-cors"
 gem "active_model_serializers"
+gem "inline_svg"
