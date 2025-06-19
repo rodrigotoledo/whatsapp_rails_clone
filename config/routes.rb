@@ -5,13 +5,38 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registration, only: %i[new create]
   resource :groups, only: :create
-  resource :messages, only: :create do
-    collection do
-      put :mark_as_read
+
+  resources :conversations, only: [ :index, :show ] do
+    member do
+      patch :mark_as_read
+    end
+    # Mensagens aninhadas sob conversas
+    resources :messages, only: [ :index, :create ]
+
+    # Rotas adicionais para conversas
+    member do
+      post :add_participant
+      delete :remove_participant
     end
   end
 
-  root "home#index"
+  # Rotas independentes para friendships
+  resources :friendships, only: [ :index, :create, :destroy ] do
+    collection do
+      get :pending
+      put :accept
+    end
+  end
+
+  # Rotas para grupos (se ainda necessário)
+  resources :groups, only: [ :create, :show, :update, :destroy ] do
+    member do
+      post :join
+      post :leave
+    end
+  end
+
+  root "conversations#index"
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   namespace :api do
     post "sign_up", to: "registrations#create", as: :sign_up

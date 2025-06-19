@@ -149,6 +149,7 @@ For Migrations (Remembering That You May Need To Run Both In Development And Tes
 
 ```bash
 docker compose -f docker-compose.development.yml run app rails db:migrate
+docker compose -f docker-compose.development.yml run app rails db:generate_mass_messages
 ```
 
 ## Putting Down
